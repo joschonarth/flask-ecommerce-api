@@ -31,5 +31,18 @@ def delete_product(product_id):
         return jsonify({"message": "Product deleted successfully"}), 201
     return jsonify({"message": "Product not found"}), 404
 
+@app.route('/api/products/<int:product_id>', methods=['GET'])
+def get_product_details(product_id):
+    product = Product.query.get(product_id)
+    if product:
+        return jsonify({
+            "id": product.id,
+            "name": product.name,
+            "price": product.price,
+            "description": product.description
+        })
+    return jsonify({"message": "Product not found"}), 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)
