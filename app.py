@@ -38,9 +38,11 @@ def load_user(user_id):
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    user = User.query.filter_by(username=data.get('username')).first()
+    username = data.get("username")
+    password = data.get("password")
+    user = User.query.filter_by(username=username).first()
 
-    if user and data.get("password") == user.password:
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.password):
         login_user(user)
         return jsonify({"message": "Logged in successfully"})
     
