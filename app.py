@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+import bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
@@ -50,6 +51,20 @@ def login():
 def logout():
     logout_user()
     return jsonify({"message": "Logout successfully"})
+
+@app.route("/api/user", methods=['POST'])
+def create_user():
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+
+    if username and password:
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({"message": "User successfully registered"})
+    
+    return jsonify({"message": "Invalid credentials"}), 400
 
 @app.route('/api/products/add', methods=['POST'])
 @login_required
