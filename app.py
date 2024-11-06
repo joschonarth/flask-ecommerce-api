@@ -59,7 +59,8 @@ def create_user():
     password = data.get("password")
 
     if username and password:
-        user = User(username=username, password=password)
+        hashed_password = bcrypt.hashpw(str.encode(password), bcrypt.gensalt())
+        user = User(username=username, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         return jsonify({"message": "User successfully registered"})
