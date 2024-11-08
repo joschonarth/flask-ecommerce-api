@@ -42,7 +42,33 @@ paths:
           description: Logout successfully
         401:
           description: Unauthorized. Invalid credentials
-  
+
+  /api/users:
+    post:
+      summary: Create a new user
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: Username for the new user
+              password:
+                type: string
+                description: Password for the new user
+      responses:
+        200:
+          description: User created successfully
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Bad Request. Invalid input data
+        409:
+          description: Conflict. Username or email already exists
+
   /api/products:
     get:
       summary: Get a list of products
