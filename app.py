@@ -69,23 +69,6 @@ def create_user():
     
     return jsonify({"message": "Invalid credentials"}), 400
 
-@app.route("/api/users/<int:id_user>", methods=['PUT'])
-@login_required
-def update_user(id_user):
-    data = request.json
-    user = User.query.get(id_user)
-
-    if id_user != current_user.id:
-        return jsonify({"message": "Operation not allowed."}), 403
-    
-    if user and data.get("password"):
-        user.password = data.get("password")
-        db.session.commit()
-
-        return jsonify({"message": f"User {user.username} successfully updated!"})
-
-    return jsonify({"message": "User not found."}), 404
-
 @app.route('/api/products/add', methods=['POST'])
 @login_required
 def add_product():
