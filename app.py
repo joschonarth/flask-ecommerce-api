@@ -61,6 +61,10 @@ def create_user():
     password = data.get("password")
 
     if username and password:
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return jsonify({"message": "Username already exists"}), 409
+        
         hashed_password = bcrypt.hashpw(str.encode(password), bcrypt.gensalt())
         user = User(username=username, password=hashed_password)
         db.session.add(user)
