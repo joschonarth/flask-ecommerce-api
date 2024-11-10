@@ -35,10 +35,12 @@ class CartItem(db.Model):
 
 # ------------------ User Section ------------------
 
+# Load user function for session management
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Login route to authenticate user and initiate session
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -52,12 +54,14 @@ def login():
     
     return jsonify({"message": "Unauthorized. Invalid credentials"}), 401
 
+# Logout route to end user session
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return jsonify({"message": "Logout successfully"})
 
+# Route to register a new user
 @app.route("/api/users", methods=['POST'])
 def create_user():
     data = request.json
@@ -79,6 +83,7 @@ def create_user():
 
 # ------------------ Product Section ------------------
 
+# Route to add a new product
 @app.route('/api/products/add', methods=['POST'])
 @login_required
 def add_product():
@@ -90,6 +95,7 @@ def add_product():
         return jsonify({"message": "Product added successfully"}), 201
     return jsonify({"message": "Invalid product data"}), 400
 
+# Route to delete a product by ID
 @app.route('/api/products/delete/<int:product_id>', methods=['DELETE'])
 @login_required
 def delete_product(product_id):
@@ -100,6 +106,7 @@ def delete_product(product_id):
         return jsonify({"message": "Product deleted successfully"}), 201
     return jsonify({"message": "Product not found"}), 404
 
+# Route to retrieve product details by ID
 @app.route('/api/products/<int:product_id>', methods=['GET'])
 def get_product_details(product_id):
     product = Product.query.get(product_id)
@@ -112,6 +119,7 @@ def get_product_details(product_id):
         })
     return jsonify({"message": "Product not found"}), 404
 
+# Route to update product information by ID
 @app.route('/api/products/update/<int:product_id>', methods=['PUT'])
 @login_required
 def update_product(product_id):
@@ -132,6 +140,7 @@ def update_product(product_id):
 
     return jsonify({"message": "Product updated successfully"})
 
+# Route to get a list of all products
 @app.route('/api/products', methods=['GET'])
 def get_products():
     products = Product.query.all()
@@ -148,6 +157,7 @@ def get_products():
 
 # ------------------ Cart Section ------------------
 
+# Route to add a product to the user's cart
 @app.route('/api/cart/add/<int:product_id>', methods=['POST'])
 @login_required
 def add_to_cart(product_id):
@@ -161,6 +171,7 @@ def add_to_cart(product_id):
         return jsonify({"message": "Item added to the cart successfully"})
     return jsonify({"message": "Failed to add item to the cart"}), 400
 
+# Route to remove a product from the user's cart
 @app.route('/api/cart/remove/<int:product_id>', methods=['DELETE'])
 @login_required
 def remove_from_cart(product_id):
@@ -171,6 +182,7 @@ def remove_from_cart(product_id):
         return jsonify({"message": "Item removed from the cart successfully"})
     return jsonify({"message": "Failed to remove item from the cart"}), 400
 
+# Route to view all items in the user's cart
 @app.route('/api/cart', methods=['GET'])
 @login_required
 def view_cart():
@@ -188,6 +200,7 @@ def view_cart():
         })
     return jsonify(cart_content)
 
+# Route to checkout and clear the cart
 @app.route('/api/cart/checkout', methods=['POST'])
 @login_required
 def checkout():
