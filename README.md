@@ -1,6 +1,6 @@
 # 🛒 E-commerce API
 
-Esta é uma API para um e-commerce, desenvolvida com Flask e Python. A API permite o gerenciamento de **usuários**, **produtos** e **carrinhos de compras**, além de operações de autenticação e autorização.
+Esta API foi desenvolvida para gerenciar os principais recursos de um e-commerce, permitindo o controle de **usuários**, **produtos** e **carrinhos de compras**. Construída com **Flask** e **Python**, oferece funcionalidades completas de autenticação, gerenciamento de produtos e finalização de compras, além de garantir uma integração segura e eficiente com o banco de dados. 
 
 ## 🛠️ Tecnologias Utilizadas 
 
@@ -27,7 +27,6 @@ Esta é uma API para um e-commerce, desenvolvida com Flask e Python. A API permi
   - **🔍 Visualizar Produto**: Exibe os detalhes de um produto específico.
   - **❌ Remover Produto**: Exclui um produto do catálogo.
 - 🔍 **Busca de Produtos**: Pesquisa de produtos por nome ou descrição.
-
 
 ## 🚀 Como Rodar o Projeto
 
